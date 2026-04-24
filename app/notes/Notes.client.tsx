@@ -15,19 +15,19 @@ import NoteForm from '@/components/NoteForm/NoteForm';
 export default function NotesClient() { 
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [note, setIsNote] = useState<string>('');
+  const [searchQuery, setsearchQuery] = useState<string>('');
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   
  
   const handleSearch = useDebouncedCallback((value: string) => {
-    setIsNote(value);
+    setsearchQuery(value);
     setCurrentPage(1);
   }, 500);
 
 
   const { data, isLoading, isError } = useQuery({
-      queryKey: ["notes", { currentPage, note }],
-    queryFn: () => fetchNotes(currentPage, note),
+      queryKey: ["notes", { currentPage, searchQuery }],
+    queryFn: () => fetchNotes(currentPage, searchQuery),
     placeholderData: keepPreviousData,
   });
 
