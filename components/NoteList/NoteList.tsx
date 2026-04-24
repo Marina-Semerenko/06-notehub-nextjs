@@ -14,7 +14,10 @@ export default function NoteList({ notes }: NoteListProps) {
     const mutation = useMutation({
         mutationFn: deleteNote,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['notes'] });
+            queryClient.invalidateQueries({
+                queryKey: ['notes'],
+                exact: false,
+             });
         },
     });
 
@@ -27,7 +30,10 @@ return (
                 
     <div className={css.footer}>
         <span className={css.tag}>{note.tag}</span>
-        <Link href={`/notes.id`}>View details</Link>
+                    <Link href={`/notes/${note.id}`}>
+                    View details
+                    </Link>
+                    
          <button className={css.button}
           onClick={() => mutation.mutate(note.id ?? '')}>Delete</button>
        </div>

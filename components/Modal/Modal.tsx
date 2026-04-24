@@ -9,9 +9,12 @@ interface ModalProps {
     onClose: () => void;
 } 
 
-const modalRoot = document.getElementById('modal-root') as HTMLElement;
-
 export default function Modal({ children, onClose }: ModalProps) {
+    const modalRoot = typeof document !== 'undefined' ?
+        document.getElementById('modal-root') as HTMLElement
+        : null;
+    
+    
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
@@ -42,7 +45,8 @@ export default function Modal({ children, onClose }: ModalProps) {
             onClose();
         }
     };
-
+    if (!modalRoot) return null;
+    
     return createPortal(
         <div
             className={css.backdrop}
